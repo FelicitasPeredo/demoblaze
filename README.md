@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. Clone the repository
 
-- _git clone https://github.com/FelicitasPeredo/felicitas_peredo_teladoc_challenge.git_
+- _git clone https://github.com/FelicitasPeredo/demoblaze_
 
 2. Install the required packages
 
