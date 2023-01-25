@@ -35,11 +35,6 @@ class BasePage():
         self.wait_until_element_is_visible(locator)
         self.find_element(locator).send_keys(value)
 
-    #select a specific dropdown value
-    def do_dropdown_single_select(self, dropdown_locator, value_locator):
-        self.do_click(dropdown_locator)
-        self.do_click(value_locator)
-
     #get the specified attribute from a web element
     def get_attribute(self, locator, attribute):
         return self.find_element(locator).get_attribute(attribute)

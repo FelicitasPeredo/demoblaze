@@ -3,7 +3,7 @@ from Utilities.handlers import DatasetHandlers
 import time, json, pytest
 
 #deserialize supporting file-like object containing a JSON document to a Python object
-#change path if needed
+#change path when needed
 with open("C:\\Users\\Felicitas Peredo\\Documents\\demoblaze\\Config\\dataset.json") as jsonFile:
     file = json.load(jsonFile)
 
