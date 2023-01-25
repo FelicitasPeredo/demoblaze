@@ -1,5 +1,7 @@
 class DatasetHandlers:
-    #create a tuple from the dataset dictionary to input the parametrize decorator
+    #create a list with tuples from the dataset to input the parametrize decorator
     def test_handler(file):
-        result = tuple({iteration: data} for iteration, data in file.items())
-        return result
+        iteration_list = []
+        result = tuple(file.values())
+        iteration_list.append(result)
+        return iteration_list

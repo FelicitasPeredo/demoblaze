@@ -1,31 +1,48 @@
-from Pages.way2automationpage import Way2AutomationPage
+from Pages.demoblazepage import DemoBlazePage
 from Utilities.handlers import DatasetHandlers
 import time, json, pytest
 
 #deserialize supporting file-like object containing a JSON document to a Python object
-with open("C:\\Users\\Felicitas Peredo\\Documents\\felicitas_peredo_teladoc_challenge\\Config\\dataset.json") as jsonFile:
+#change path if needed
+with open("C:\\Users\\Felicitas Peredo\\Documents\\demoblaze\\Config\\dataset.json") as jsonFile:
     file = json.load(jsonFile)
 
 class TestCases():
-    #parametrize the test with possible new users data, in this case only one
-    @pytest.mark.parametrize("dataset", DatasetHandlers.test_handler(file))
-    def test_add_user(self, init_driver, dataset):
+    #parametrize the test with possible inputs, in this case only three
+    @pytest.mark.parametrize("username, password, item", DatasetHandlers.test_handler(file))
+    #Dar de alta un usuario
+    def test_sign_up(self, init_driver, username, password, item):
         driver = init_driver
-        # initialize Way2AutomationPage class instance
-        way2automation_page = Way2AutomationPage(driver)
-        #add new user
-        way2automation_page.add_new_user(dataset['new_user'])
-        #validate the new user is added to the table
-        added = way2automation_page.validate_new_user_added(dataset['new_user'])
-        assert added
+        self.demoplazepage = DemoBlazePage(driver)
+        self.demoplazepage.sign_up_new_user(username, password)
 
-    @pytest.mark.parametrize("user", [('novak')])
-    def test_delete_user(self, init_driver, user):
+    #Login y logout con el usuario dado de alta
+    @pytest.mark.parametrize("username, password, item", DatasetHandlers.test_handler(file))
+    def test_log_in_log_out(self, init_driver, username, password, item):
         driver = init_driver
-        # initialize Way2AutomationPage class instance
-        way2automation_page = Way2AutomationPage(driver)
-        #delete a user
-        way2automation_page.delete_user(user)
-        #validate the user was deleted from the table
-        deleted = way2automation_page.validate_deleted_user(user)
-        assert deleted
+        self.demoplazepage = DemoBlazePage(driver)
+        self.demoplazepage.log_in(username, password)
+        logged_in = self.demoplazepage.check_log_in(username)
+        #only if the user logged in continues to log out and check if it logged out
+        if logged_in:
+            self.demoplazepage.log_out()
+            logged_out =  self.demoplazepage.check_log_out()
+            assert logged_out
+        else:
+            raise Exception('Unable to Log in')
+
+    #Agregar una laptop al carrito y comprobar que se agrego al carrito
+    @pytest.mark.parametrize("username, password, item", DatasetHandlers.test_handler(file))
+    def test_add_laptop_to_cart(self, init_driver, username, password, item):
+        driver = init_driver
+        self.demoplazepage = DemoBlazePage(driver)
+        self.demoplazepage.log_in(username, password)
+        logged_in = self.demoplazepage.check_log_in(username)
+        #only if the user logged in continues to add the product and check if it's in the cart
+        if logged_in:
+            self.demoplazepage.add_product(item)
+            item_added = self.demoplazepage.check_cart(item)
+            assert item_added
+        else:
+            raise Exception('Unable to Log in')
+        
