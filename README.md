@@ -22,7 +22,7 @@ These instructions will get you a copy of the project up and running on your loc
 - _pip install pytest_
 - _pip install webdriver-manager_
 
-3. Change the dataset path
+3. Dataset path
 
 - _In test_excercise.py (line 7), ensure that the file path is updated to reflect the correct location where the repository is stored_
 
